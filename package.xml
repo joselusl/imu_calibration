@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="2">
+	<name>imu_calibration</name>
+	<version>1.0.0</version>
+	<description>
+  		This package is imu_calibration.
+	</description>
+	<author email="jl.sanchez@upm.es">Jose Luis Sanchez-Lopez</author>
+	<maintainer email="jl.sanchez@upm.es">Jose Luis Sanchez-Lopez</maintainer>
+  	<license>BSD</license>
+	<url>http://ros.org/wiki/imu_calibration</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>cmake_modules</build_depend>
+
+  <depend>roscpp</depend>
+  <depend>std_srvs</depend>
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+
+
+</package>
+

@@ -1,0 +1,13 @@
+<!-- -->
+<launch>
+
+	<arg name="imu_calibration_node_name" 	default="imu_calibration_node" />
+
+
+  <node name="$(arg imu_calibration_node_name)" pkg="imu_calibration" type="imu_calibration" output="screen">
+
+
+  </node>
+
+
+</launch>
