@@ -42,18 +42,20 @@ set(IMU_CALIBRATION_INCLUDE_DIR
 
 set(IMU_CALIBRATION_SOURCE_FILES
   ${IMU_CALIBRATION_SOURCE_DIR}/calibration.cc
-  ${IMU_CALIBRATION_SOURCE_DIR}/mikrokopter_codels.c
-  ${IMU_CALIBRATION_SOURCE_DIR}/mikrokopter_comm_codels.c
-  ${IMU_CALIBRATION_SOURCE_DIR}/mikrokopter_main_codels.c
-  ${IMU_CALIBRATION_SOURCE_DIR}/tty.c
+
+#  ${IMU_CALIBRATION_SOURCE_DIR}/mikrokopter_codels.c
+#  ${IMU_CALIBRATION_SOURCE_DIR}/mikrokopter_comm_codels.c
+#  ${IMU_CALIBRATION_SOURCE_DIR}/mikrokopter_main_codels.c
+#  ${IMU_CALIBRATION_SOURCE_DIR}/tty.c
 
   ${IMU_CALIBRATION_SOURCE_DIR}/calibration_ros.cpp
 )
  
 set(IMU_CALIBRATION_HEADER_FILES
   ${IMU_CALIBRATION_INCLUDE_DIR}/imu_calibration/codels.h
-  ${IMU_CALIBRATION_INCLUDE_DIR}/imu_calibration/mikrokopter_c_types.h
-  ${IMU_CALIBRATION_INCLUDE_DIR}/imu_calibration/acmikrokopter.h
+
+#  ${IMU_CALIBRATION_INCLUDE_DIR}/imu_calibration/mikrokopter_c_types.h
+#  ${IMU_CALIBRATION_INCLUDE_DIR}/imu_calibration/acmikrokopter.h
 
   ${IMU_CALIBRATION_INCLUDE_DIR}/imu_calibration/calibration_ros.h
 )

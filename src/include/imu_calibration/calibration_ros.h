@@ -42,23 +42,30 @@ public:
 
 public:
     int run();
+    //int stop();
 
 
 
     // Subscriber IMU
 protected:
-    std::string ImuTopicName;
+    std::string imu_topic_name_;
 protected:
-    ros::Subscriber ImuTopicSub;
+    ros::Subscriber imu_topic_sub_;
     void imuTopicCallback(const sensor_msgs::ImuConstPtr& msg);
 public:
-    int setImuTopicName(std::string SensorImuTopicName);
+    int setImuTopicName(std::string imu_topic_name);
 
 
 
     // Service Start calibration
     // TODO
 
+
+
+    // Calibration
+protected:
+    bool flag_imu_calibrated_;
+    ImuCalibrator imu_calibrator_;
 
 };
 
