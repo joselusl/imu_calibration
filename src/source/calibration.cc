@@ -242,7 +242,8 @@ int ImuCalibrator::calibrate()
 int ImuCalibrator::mk_calibration_init(uint32_t sstill, uint32_t nposes, uint32_t sps)
 {
   raw_data = new(mk_calibration_data);
-  if (!raw_data) return ENOMEM;
+  if (!raw_data)
+      return ENOMEM;
 
   raw_data->sps = sps; // Imu rate
   raw_data->sstill = sstill; // Number of samples per still pose
@@ -274,24 +275,30 @@ int ImuCalibrator::mk_calibration_collect(ImuMeasurement *imu_data, int32_t *sti
   *still = -1;
 
   /* check data */
-  if (!imu_data->vel._present || !imu_data->acc._present) return EIO;
+  if (!imu_data->vel._present || !imu_data->acc._present)
+      return EIO;
   if (imu_data->ts.sec == raw_data->ts.sec &&
-      imu_data->ts.nsec == raw_data->ts.nsec) return EAGAIN;
+      imu_data->ts.nsec == raw_data->ts.nsec)
+      return EAGAIN;
 
 
   /* collect raw sample */
 
+  // Store time stamps
   if (raw_data->t.cols() <= raw_data->samples)
     raw_data->t.conservativeResize(raw_data->t.cols() + raw_data->sps);
+
   raw_data->t(raw_data->samples) =
     imu_data->ts.sec + 1e-9 * imu_data->ts.nsec;
 
+  // Store Gyro
   if (raw_data->gyr.cols() <= raw_data->samples)
     raw_data->gyr.conservativeResize(Eigen::NoChange,
                                     raw_data->gyr.cols() + raw_data->sps);
   raw_data->gyr.col(raw_data->samples) <<
     imu_data->vel._value.wx, imu_data->vel._value.wy, imu_data->vel._value.wz;
 
+  // Store Accelerom
   if (raw_data->acc.cols() <= raw_data->samples)
     raw_data->acc.conservativeResize(Eigen::NoChange,
                                     raw_data->acc.cols() + raw_data->sps);
@@ -305,7 +312,8 @@ int ImuCalibrator::mk_calibration_collect(ImuMeasurement *imu_data, int32_t *sti
   raw_data->sum += acc;
   raw_data->sumsq += acc.cwiseProduct(acc);
 
-  if (raw_data->samples >= raw_data->sps) {
+  if (raw_data->samples >= raw_data->sps)
+  {
     acc = raw_data->acc.col(raw_data->samples - raw_data->sps);
     raw_data->sum -= acc;
     raw_data->sumsq -= acc.cwiseProduct(acc);
@@ -324,8 +332,9 @@ int ImuCalibrator::mk_calibration_collect(ImuMeasurement *imu_data, int32_t *sti
     if (raw_data->accvarth > m)
         raw_data->accvarth = m;
 
-    if ((accvar.array() < 2 * raw_data->accvarth).all())
+    if ((accvar.array() < 20 * raw_data->accvarth).all())
     {
+
       if (!raw_data->nstill)
         *still = 0;
 
@@ -338,15 +347,22 @@ int ImuCalibrator::mk_calibration_collect(ImuMeasurement *imu_data, int32_t *sti
           raw_data->samples - raw_data->sstill - raw_data->sps/2;
 
         *still = raw_data->still.cols();
+        std::cout<<"Still pose"<<std::endl;
+
+        // Reset: JL addition
+        raw_data->accvarth=DBL_MAX;
+
       }
       if (raw_data->nstill > 100 * raw_data->sstill)
       {
+          std::cout<<"ERROR!!"<<std::endl;
         return EFBIG;
       }
       else if (raw_data->nstill >= raw_data->sstill)
       {
         raw_data->still(1, raw_data->still.cols()-1) =
           raw_data->samples - raw_data->sps/2;
+        //std::cout<<"aqui"<<std::endl;
       }
     }
     else
@@ -525,7 +541,8 @@ void ImuCalibrator::mk_calibration_fini(double stddeva[3], double stddevw[3],
   int32_t i, k, n, l;
 
   /* stddev over all still intervals */
-  if (stddeva) {
+  if (stddeva)
+  {
     s << 0., 0., 0.;
     n = 0;
     for(i = 0; i < raw_data->still.cols(); i++)

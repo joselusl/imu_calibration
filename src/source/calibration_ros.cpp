@@ -110,17 +110,21 @@ void ImuCalibrationRos::imuTopicCallback(const sensor_msgs::ImuConstPtr& msg)
 
     if(flag_new_still_pose_detected)
     {
-        std::cout<<"Still poses: "<<still<<" out of "<<imu_calibrator_.nposes<<std::endl;
-    }
+        std::cout<<"Still poses: "<<still<<" out of "<<imu_calibrator_.nposes<<"!!!!!!!!!!!!!!!!!!!!!"<<std::endl;
 
-    // Try calibration
-    int error_calibration=imu_calibrator_.calibrate();
-    if(!error_calibration)
-    {
-        std::cout<<"IMU calibration succeed!"<<std::endl;
-        flag_imu_calibrated_=true;
-        std::cout<<imu_calibrator_.imu_calibration_.print()<<std::endl;
-        ros::shutdown();
+        if(still >= imu_calibrator_.nposes)
+        {
+            // Try calibration
+            int error_calibration=imu_calibrator_.calibrate();
+            if(!error_calibration)
+            {
+                std::cout<<"IMU calibration succeed!"<<std::endl;
+                flag_imu_calibrated_=true;
+                std::cout<<imu_calibrator_.imu_calibration_.print()<<std::endl;
+                ros::shutdown();
+            }
+        }
+
     }
 
     return;
